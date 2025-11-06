@@ -79,7 +79,7 @@ declare class Compiler {
     // https://teavm.org/playground/runtime-classlib-teavm.bin
     setTeaVMClasslib(content: Int8Array)
 
-    onDiagnostic(listener: (Diagnostic) => void): ListenerRegistration;
+    onDiagnostic(listener: (diagnostic: Diagnostic) => void): ListenerRegistration
 
     // Takes given source files and given input binary class files as dependencies.
     // 
@@ -138,23 +138,24 @@ declare class ListenerRegistration {
     destroy()
 }
 
-declare class Diagnostic {
-    type: "javac" | "teavm"
+interface BaseDiagnostic {
     severity: "error" | "warning" | "other"
     fileName: string
     lineNumber: number
     message: string
 }
-declare class JavaDiagnostic extends Diagnostic {
+declare interface JavaDiagnostic extends BaseDiagnostic {
     type: "javac"
     columnNumber: number
     startPosition: number
     position: number
     endPosition: number
 }
-declare class TeaVMDiagnostic extends Diagnostic {
+declare interface TeaVMDiagnostic extends BaseDiagnostic {
     type: "teavm"
+    params: string[]
 }
+declare type Diagnostic = JavaDiagnostic | TeaVMDiagnostic
 ```
 
 Please note that methods, that are supposed to add a file, overwrite existing files.
