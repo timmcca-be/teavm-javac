@@ -1,6 +1,6 @@
 [versions]
 
-teavm = "0.13.0"
+teavm = "0.14.0-KASNAPSHOT"
 asm = "9.8"
 
 [libraries]
