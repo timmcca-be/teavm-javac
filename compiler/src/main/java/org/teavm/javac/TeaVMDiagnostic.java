@@ -16,6 +16,8 @@
 
 package org.teavm.javac;
 
+import java.util.Arrays;
+
 import org.teavm.diagnostics.DefaultProblemTextConsumer;
 import org.teavm.diagnostics.Problem;
 import org.teavm.jso.JSExport;
@@ -76,5 +78,11 @@ public class TeaVMDiagnostic extends BaseDiagnostic {
             return null;
         }
         return problem.getLocation().getSourceLocation().getFileName();
+    }
+
+    @JSExport
+    @JSProperty
+    public String[] getParams() {
+        return Arrays.stream(problem.getParams()).map(Object::toString).toArray(String[]::new);
     }
 }
