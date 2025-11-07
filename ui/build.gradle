@@ -20,9 +20,12 @@ dependencies {
     webapp project(path: ":compiler", configuration: "dist")
 }
 
-teavm.wasm {
+teavm.wasmGC {
     mainClass = "org.teavm.javac.ui.Client"
     addedToWebApp = true
+    debugInformation = true
+    debugInfoLocation = WasmDebugInfoLocation.EXTERNAL
+    modularRuntime = true
 }
 
 node {

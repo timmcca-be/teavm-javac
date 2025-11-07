@@ -22,10 +22,10 @@
 </head>
 <body>
 <script type="module">
-    import { load } from "./build/generated/teavm/wasm/compiler.wasm-runtime.js";
+    import { load } from "./build/generated/teavm/wasm-gc/compiler.wasm-runtime.js";
 
     async function loadCompiler() {
-        let teavm = await load("build/generated/teavm/wasm/compiler.wasm", {
+        let teavm = await load("build/generated/teavm/wasm-gc/compiler.wasm", {
             stackDeobfuscator: {
                 enabled: true
             },
