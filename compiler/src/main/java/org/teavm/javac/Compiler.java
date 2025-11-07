@@ -35,7 +35,7 @@ import javax.tools.JavaFileManager;
 import javax.tools.JavaFileObject;
 import org.objectweb.asm.ClassReader;
 import org.teavm.backend.wasm.WasmDebugInfoLocation;
-import org.teavm.backend.wasm.WasmGCTarget;
+import org.teavm.backend.wasm.WasmTarget;
 import org.teavm.classlib.impl.JCLPlugin;
 import org.teavm.jso.JSClass;
 import org.teavm.jso.JSExport;
@@ -254,7 +254,7 @@ public final class Compiler {
         }
         var mainClass = options.getMainClass().stringValue();
 
-        var target = new WasmGCTarget();
+        var target = new WasmTarget();
         var refCache = new ReferenceCache();
         if (classSource == null) {
             resourceProvider = new MemoryResourceProvider(List.of(teavmClasslibFiles, classFiles, outputFiles));
@@ -277,8 +277,6 @@ public final class Compiler {
         new JCLPlugin().install(teavm);
         teavm.setEntryPoint(mainClass);
         target.setObfuscated(false);
-        target.setDebugInfoLocation(WasmDebugInfoLocation.EMBEDDED);
-        target.setDebugInfo(true);
         teavm.build(new MemoryBuildTarget(wasmOutputFiles), outputName);
         if (!diagnosticListeners.isEmpty()) {
             for (var problem : teavm.getProblemProvider().getProblems()) {

@@ -45,10 +45,9 @@ teavm {
     all {
         mainClass = "org.teavm.javac.CompilerLib"
     }
-    wasmGC {
+    wasm {
         outOfProcess = true
         processMemory = 4096
-        modularRuntime = true
     }
 }
 
@@ -146,15 +145,15 @@ def buildTeaVMClassLib = tasks.register("buildTeaVMClassLib", JavaExec) {
 }
 
 build {
-    dependsOn buildWasmGC, buildTeaVMClassLib, generateClassLib
+    dependsOn generateWasm, buildTeaVMClassLib, generateClassLib
 }
 
 def createDist = tasks.register("createDist", Zip) {
     group "build"
-    dependsOn buildWasmGC
+    dependsOn generateWasm
     from buildTeaVMClassLib
     from generateClassLib
-    from layout.buildDirectory.dir("generated/teavm/wasm-gc")
+    from layout.buildDirectory.dir("generated/teavm/wasm")
     exclude "src/**"
     archiveBaseName = "dist"
 }
